@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navigation">
+    <div class="container-fluid ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        
+        <button (click)="onToggle()" class="toggle-button btn btn-outline-secondary"  [ngStyle]="{ 'background-color' : isLight === false ? 'black' : 'gray'
+        ,'color':isLight === false ? 'white' : 'black' }">{{ htmlStr }}</button>
+        <input
+          type="checkbox"
+          [checked]="darkMode$ | async"
+          (change)="onToggle()"
+          hidden
+        />
+        <ul class="navbar-nav ms-auto">
+         
+          <li class="nav-item">
+            <a class="nav-link"  routerLink=""routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a  class="nav-link" routerLink="favourites" routerLinkActive="active-link" (click)="removeDark()">Favourites</a>
+          </li> 
+        </ul>
+        
+      </div>
+    </div>
+  </nav>

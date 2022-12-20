@@ -1,0 +1,96 @@
+
+        <section>
+
+        <div class="container main mt-5">
+            
+        <div class="row p-5"> 
+            
+            <form [formGroup]="searchForm" class="form-inline row justify-content-center">
+                <div class="col-lg-7">
+                    <!-- <input class="form-control mr-sm-2" type="search" formControlName="citySearch" placeholder="City" aria-label="Search"> -->
+                <!-- <ngx-select  [multiple]="false" 
+                    formControlName="citySearch" 
+                    [items]="citysNames" 
+                    search="true"
+                    bindValue="name"
+                    (select)="selectItem($event)"
+                    (keyup.enter)="showCities($event)"
+                    placeholder="City">
+                </ngx-select> -->
+                <ng-select 
+                [items]="citysNames" 
+                search="true"
+                        bindLabel="name" 
+                        bindValue="id" 
+                        (keyup.enter)="showCities($event)"
+                        (change)="selectItem($event.id,$event)"
+                        (search)="onSearch($event)"
+                        formControlName="citySearch">
+                </ng-select>
+                    <!-- <select>
+                        <option *ngFor="let cn of citysNames" [ngValue]="cn.LocalizedName">{{cn.LocalizedName}}</option>
+                      </select> -->
+                      
+                </div>
+                <!-- <button class="btn btn-secondary my-2 my-sm-0 mx-lg-4 col-lg-3 col-11" id="search-addon" (click)="onSubmit()"  type="submit">Search</button> -->
+                <span *ngIf="errors" style="color: red;text-align: center;">{{errors?.Message}}</span>
+    
+                <div class="d-flex col-lg-5 mt-2">
+                    <button class="btn btn-primary col-6" (click)="showForenheit()" [ngStyle]="{ 'background-color' : forenheit == true ? '#494c57' : '#6c757d' }" style="margin-right: 10px;">F</button>
+                    <button class="btn btn-primary col-6" (click)="showCelcius()" [ngStyle]="{ 'background-color' : celcius == true ? '#494c57' : 'gray' }">C</button>
+                 </div>   
+            </form>
+            <div class="card col-lg-3 col-11 daily-temp mt-3 " id="daily-temp" style="border-radius: 20px;">
+                
+
+                <div class="row">
+                    <div class="col-6" style="padding:15px">
+                        <p class="h4"><strong *ngIf="celcius">{{currentTemp}} C</strong>
+                        <strong *ngIf="forenheit">{{currentTempForenheit}} F</strong></p>
+                        <p class="mb-3 h5" >{{cityName}}, {{countryName}}</p>
+                        
+                            <svg (click)="addToFavourite()" style="width: 40px; height:40px;" [ngStyle]="{ 'color' : isFavorite === true ? 'red' : 'gray' }"
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                              </svg>
+
+                    </div>
+                    <div class="col-6">
+                            <img class="img-daily" *ngIf="weatherIcon < 10" src="https://developer.accuweather.com/sites/default/files/{{0}}{{weatherIcon}}-s.png">
+                        <img  class="img-daily" *ngIf="weatherIcon > 9" src="https://developer.accuweather.com/sites/default/files/{{weatherIcon}}-s.png">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-12 row text-center mx-lg-4">
+                <div style=" display: flex; justify-content: flex-end; padding: 10px 0;">
+                    <pagination-controls class="day-temp" style="color: blue; font-size: x-large;  margin-right: 50px;" (pageChange)="p = $event" previousLabel="<" nextLabel=">"></pagination-controls>
+                </div>
+                
+                <div class="card days-temp col-12 col-lg-2 d-flex align-items-stretch mx-2" *ngFor="let twelveHoursForecast of twelveHours | paginate: { itemsPerPage: 5, currentPage: p }" style="border-radius: 20px; margin-bottom: 15px;">
+                    <p class="mt-2">{{twelveHoursForecast.DateTime | date:'HH:mm'}}</p>
+                        <p class="mb-0 h5 "><strong>{{twelveHoursForecast?.Date | date:'EEEE, MMMM d, y'.slice(0,3)}}</strong></p>
+                        <p>{{twelveHoursForecast?.IconPhrase}}</p>
+                        <hr>
+                        <img *ngIf="weatherIcon < 10" src="https://developer.accuweather.com/sites/default/files/{{0}}{{weatherIcon}}-s.png">
+                        <img *ngIf="weatherIcon > 9" src="https://developer.accuweather.com/sites/default/files/{{weatherIcon}}-s.png">
+                            <p class="h6"><strong *ngIf="celcius">{{twelveHoursForecast?.Temperature?.Value}} C</strong>
+                            <strong *ngIf="forenheit">{{twelveHoursForecast?.forenheit}} F</strong></p>       
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-11 col-12 row text-center mx-lg-4  pb-5" >
+            <div class="card days-temp container col-12 col-lg-2" *ngFor="let oneDayForecast of fiveDayForecast" style="border-radius: 20px; margin-top: 20px;">
+                    <p class="mb-0 h5 mt-2"><strong>{{oneDayForecast?.Date | date:'EEEE, MMMM d, y'.slice(0,3)}}</strong></p>
+                    <hr>
+                    <img *ngIf="oneDayForecast?.Day?.Icon < 10" src="https://developer.accuweather.com/sites/default/files/{{0}}{{oneDayForecast?.Day?.Icon}}-s.png">
+                    <img *ngIf="oneDayForecast?.Day?.Icon > 9" src="https://developer.accuweather.com/sites/default/files/{{oneDayForecast?.Day?.Icon}}-s.png">
+                    <p class="h6"><strong *ngIf="celcius">{{oneDayForecast?.Temperature?.Maximum?.Value}} {{oneDayForecast?.Temperature?.Maximum?.Unit}}</strong>
+                        <strong *ngIf="forenheit">{{oneDayForecast?.forenheitMax}} F</strong></p>
+                      <p class="h6"><strong *ngIf="celcius">{{oneDayForecast?.Temperature?.Minimum?.Value}} {{oneDayForecast?.Temperature?.Minimum?.Unit}}</strong>
+                        <strong *ngIf="forenheit">{{oneDayForecast?.forenheitMin}} F</strong></p>       
+            </div>
+        </div>
+        
+    </div>
+</section>

@@ -1,0 +1,41 @@
+
+
+::ng-deep .ngx-pagination .pagination-previous.disabled:before {
+    content: "";
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination .pagination-previous a:before {
+    content: "";
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination .pagination-next.disabled:after {
+    content: "";
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination .pagination-next a:after {
+    content: "";
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination .current{
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination .li .a{
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination li.ng-star-inserted{
+    display: none !important;
+  }
+  ::ng-deep .ngx-pagination li.pagination-next.ng-star-inserted {
+    display: inline-block !important;
+  }
+  ::ng-deep .ngx-pagination li.pagination-previous.ng-star-inserted{
+    display: inline-block !important;
+  }
+  ::ng-deep .ngx-pagination  :hover{
+    background-color: none !important;
+  }
+
+  .day-temp /deep/ .ngx-pagination li:not(.pagination-previous):not(.pagination-next) {
+    display: none;
+  }
+  

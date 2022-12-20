@@ -1,0 +1,45 @@
+ 
+<section class="fav-main vh-100">
+    <div class="container py-5 h-100">
+  
+      <div class="row d-flex justify-content-center align-items-center h-100 fav-section-body" >
+        <div class="col-md-9 col-lg-7 col-xl-5">
+          <h2 *ngIf="!currentCityName.length" style="color: red; text-align: center;">There are no favorites</h2>
+
+          <div class="card mb-4 gradient-custom fav-card" *ngFor="let current of currentCityName;let i=index" (click)="redirectTo(current)">
+            <div class="card-body p-4">
+              
+              <div id="demo1" class="carousel slide" data-ride="carousel">
+                <ul class="carousel-indicators mb-0">
+                  <li data-target="#demo1" data-slide-to="0" class="active"></li>
+                  <li data-target="#demo1" data-slide-to="1"></li>
+                  <li data-target="#demo1" data-slide-to="2"></li>
+                </ul>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <div class="d-flex justify-content-between mb-4 pb-2">
+                      <div>
+                        <h2 class="display-2"><strong>{{current?.Temperature?.Metric?.Value}} C</strong></h2>
+                        <p class="text-muted mb-0">{{current.cityName}}, {{current.countryName}}</p>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                          
+                          <img  *ngIf="current?.WeatherIcon < 10" src="https://developer.accuweather.com/sites/default/files/{{0}}{{current?.WeatherIcon}}-s.png"
+                          width="150px">
+                          <img  *ngIf="current?.WeatherIcon > 9" src="https://developer.accuweather.com/sites/default/files/{{current?.WeatherIcon}}-s.png"
+                          width="150px">
+                          <div (click)="deleteFav(i)">
+                            <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-4" style="color: red;width:30px;height:30px">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                          </div>
+                          
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+          
